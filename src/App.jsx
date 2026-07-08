@@ -36,9 +36,11 @@ const AppLayout = () => {
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <div className="bg-zinc-900">
+      <BrowserRouter>
       <AppLayout />
     </BrowserRouter>
+    </div>
   );
 };
 
