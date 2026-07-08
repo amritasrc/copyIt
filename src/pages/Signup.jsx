@@ -1,13 +1,22 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [touched, setTouched] = useState({ email: false, password: false });
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+
+  const nameError = !name.trim() ? "Name is required" : "";
 
   const emailError = !email.trim()
     ? "Email is required"
@@ -21,7 +30,14 @@ const Login = () => {
       ? "Password must be at least 6 characters"
       : "";
 
-  const isFormValid = !emailError && !passwordError;
+  const confirmPasswordError = !confirmPassword
+    ? "Please confirm your password"
+    : confirmPassword !== password
+      ? "Passwords do not match"
+      : "";
+
+  const isFormValid =
+    !nameError && !emailError && !passwordError && !confirmPasswordError;
 
   const handleBlur = (field) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
@@ -29,16 +45,21 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTouched({ email: true, password: true });
+    setTouched({
+      name: true,
+      email: true,
+      password: true,
+      confirmPassword: true,
+    });
     if (!isFormValid) return;
-    alert("Form submitted!");
+    alert("Account created!");
   };
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm sm:max-w-md">
         <p className="text-2xl sm:text-3xl font-semibold text-center sm:text-left">
-          Login to an account
+          Create an account
         </p>
 
         <form
@@ -46,6 +67,24 @@ const Login = () => {
           className="flex flex-col gap-5 w-full mt-8"
           noValidate
         >
+          <div className="flex flex-col gap-1 w-full">
+            <label className="font-semibold">Your Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => handleBlur("name")}
+              className={`outline-none border px-3 py-2 rounded-lg transition-colors ${
+                touched.name && nameError
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-zinc-300 focus:border-zinc-800"
+              }`}
+            />
+            {touched.name && nameError && (
+              <p className="text-red-500 text-sm mt-1">{nameError}</p>
+            )}
+          </div>
+
           <div className="flex flex-col gap-1 w-full">
             <label className="font-semibold">Your Email</label>
             <input
@@ -82,11 +121,31 @@ const Login = () => {
             )}
           </div>
 
+          <div className="flex flex-col gap-1 w-full">
+            <label className="font-semibold">Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={() => handleBlur("confirmPassword")}
+              className={`outline-none border px-3 py-2 rounded-lg transition-colors ${
+                touched.confirmPassword && confirmPasswordError
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-zinc-300 focus:border-zinc-800"
+              }`}
+            />
+            {touched.confirmPassword && confirmPasswordError && (
+              <p className="text-red-500 text-sm mt-1">
+                {confirmPasswordError}
+              </p>
+            )}
+          </div>
+
           <button
             type="submit"
             className="bg-zinc-800 text-white px-3 py-2 rounded-lg w-full hover:bg-zinc-950 transition-colors cursor-pointer"
           >
-            Login
+            Create account
           </button>
         </form>
 
@@ -99,18 +158,18 @@ const Login = () => {
         <div className="mt-4">
           <button className="bg-zinc-700 text-white flex items-center justify-center gap-2 px-3 py-3 w-full rounded-lg hover:bg-zinc-600 transition-colors cursor-pointer">
             <FaGoogle />
-            <span>Sign in with Google</span>
+            <span>Sign up with Google</span>
           </button>
         </div>
 
         <div className="mt-8 text-center text-zinc-600">
           <p>
-            Don&apos;t have an account?{" "}
+            Already have an account?{" "}
             <NavLink
-              to="/signup"
+              to="/login"
               className="text-purple-500 font-semibold cursor-pointer"
             >
-              Sign up
+              Sign in
             </NavLink>
           </p>
         </div>
@@ -119,4 +178,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
