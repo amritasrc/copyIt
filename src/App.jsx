@@ -16,11 +16,11 @@ const AppLayout = () => {
   const isAuthPage = AUTH_ROUTES.includes(location.pathname);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-hidden">
       <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {!isAuthPage && <Sidebar open={openSidebar} />}
-        <main className="flex-1 p-6">
+        <main className={`flex-1 p-6 pt-16 ${!isAuthPage && openSidebar ? "pl-65" : ""} overflow-y-auto`}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />

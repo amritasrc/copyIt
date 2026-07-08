@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 
 const Navbar = ({ openSidebar, setOpenSidebar }) => {
   return (
-    <nav className="flex items-center justify-between bg-black p-4 text-white">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black p-4 text-white">
       <div className="flex items-center gap-10 justify-between">
         {openSidebar ? (
           <IoClose

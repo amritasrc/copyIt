@@ -13,7 +13,7 @@ const Sidebar = ({ open }) => {
   if (!open) return null;
 
   return (
-    <aside className="w-65 bg-black h-screen shrink-0 overflow-y-auto">
+    <aside className="w-65 bg-black h-screen fixed top-0 pt-16 z-40 overflow-y-auto">
       <div className="flex items-center justify-between p-5 border-b border-zinc-700 text-zinc-200">
         <p className="text-zinc-400">Organize your snippets</p>
       </div>
