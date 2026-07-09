@@ -4,7 +4,7 @@ import { HiPlus } from "react-icons/hi";
 
 const Navbar = () => {
     return (
-        <nav className='bg-zinc-800 border-b border-zinc-700 px-6 py-4 flex justify-between items-center'>
+        <nav className='bg-zinc-950 border-b border-zinc-700 px-6 py-4 flex justify-between items-center'>
             <Link to="/" className='flex items-center gap-2 text-xl font-bold text-zinc-50'>
                 <img src="/favicon.jpeg"
                     className='w-7'
