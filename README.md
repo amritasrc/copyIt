@@ -1,16 +1,65 @@
-# React + Vite
+# 📋 CopyIt
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+CopyIt is a modern web application for creating, editing, and managing code snippets. Built with **React**, **Vite**, **Tailwind CSS**, and **Monaco Editor**, it provides a clean workspace for writing and organizing code.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+* 💻 Monaco code editor
+* 📝 Create and edit code snippets
+* 📋 One-click copy functionality
+* 🎨 Clean dark interface
+* 📱 Responsive design
+* ⚡ Fast performance with Vite
+* 🧩 Modular React component structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+* React 19
+* Vite
+* Tailwind CSS v4
+* React Router DOM
+* Monaco Editor
+* React Icons
+
+---
+
+## 📁 Project Structure
+
+```text
+src/
+├── assets/
+├── comps/
+├── pages/
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/amritasrc/copyIt.git
+
+cd copyIt
+
+npm install
+
+npm run dev
+```
+
+---
+
+## 👩‍💻 Author
+
+**Amrita**
+
+GitHub: https://github.com/amritasrc
+
+---
+
+⭐ If you found this project interesting, consider giving it a star.
