@@ -1,26 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { HiPlus } from "react-icons/hi";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <nav className="bg-zinc-950 border-b border-zinc-700 px-6 py-4 flex justify-between items-center">
-      <Link
-        to="/"
-        className="flex items-center gap-2 text-xl font-bold text-zinc-50"
-      >
-        <img src="/favicon.jpeg" className="w-7 rounded-lg" alt="logo" />
-        <span>CopyIt</span>
-      </Link>
-      <Link
-        to="/create"
-        className="flex items-center gap-1 bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-lg text-sm font-medium transition"
-      >
-        <HiPlus />
-        Create Snippet
-      </Link>
-    </nav>
-  );
-};
+    <header className='py-3 bg-zinc-950 text-zinc-50'>
+      <nav className='flex'>
+        <div className='ml-5'>
+          <Link to="/" className='flex items-center gap-2'>
+          <img src="/favicon.jpeg" className='w-10' alt="" />
+          <span className='font-semibold'>CopyIt</span>
+          </Link>
+        </div>
 
-export default Navbar;
+        <ul>
+        </ul>
+      </nav>
+    </header>
+  )
+}
+
+export default Navbar
