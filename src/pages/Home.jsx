@@ -1,29 +1,40 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
+import SnippetCard from "../comps/SnippetCard";
+// import { data } from "react-router-dom";
 
 const Home = () => {
-
+  const [data, setData] = useState([]);
   useEffect(() => {
-
     const getSnippets = async () => {
+      const { data, error } = await supabase.from("snippets").select("*");
 
-      const { data, error } = await supabase
-        .from("snippets")
-        .select("*");
-
+      setData(data);
       console.log("DATA:", data);
       console.log("ERROR:", error);
-
     };
 
     getSnippets();
-
   }, []);
-
 
   return (
     <div>
-      Home
+      <div>
+        {data.map((item) => (
+          // <div>
+          //   <p key={item.id}>{item.title}</p>
+          //   <p key={item.id}>{item.language}</p>
+          //   <p key={item.id}>{item.code}</p>
+          // </div>
+          <SnippetCard
+            id={item.id}
+            title={item.title}
+            description={item.description}
+            lang={item.language}
+            code={item.code}
+          />
+        ))}
+      </div>
     </div>
   );
 };

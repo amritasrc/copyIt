@@ -1,36 +1,50 @@
-import { Link } from 'react-router-dom';
-import { HiEye, HiTrash } from 'react-icons/hi';
+import { Link } from "react-router-dom";
+import { HiEye, HiTrash } from "react-icons/hi";
 
-const SnippetCard = ({ snippet, onDelete }) => {
-    return (
-        <div className="bg-zinc-800 border border-zinc-700 rounded-xl p-5 flex flex-col justify-between shadow-sm">
-            <div>
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-semibold text-white truncate max-w-[70%]">{snippet.title}</h3>
-                    <span className="text-xs bg-zinc-700 text-indigo-300 px-2.5 py-1 rounded-full uppercase font-mono tracking-wider">
-                        {snippet.language}
-                    </span>
-                </div>
-                <p className="text-zinc-400 text-sm line-clamp-2 mb-4">{snippet.description || 'No description provided.'}</p>
-            </div>
+const SnippetCard = ({ id, title, description, language, code, onDelete }) => {
+  return (
+    <div className="flex flex-col justify-between w-100 rounded-xl border border-zinc-700 bg-zinc-800 p-5 shadow-sm transition hover:border-indigo-500 hover:shadow-lg">
+      <div>
+        <div className="mb-2 flex items-start justify-between">
+          <h3 className="max-w-[70%] truncate text-lg font-semibold text-white">
+            {title}
+          </h3>
 
-            <div className="flex justify-between items-center mt-4 pt-3 border-t border-zinc-700">
-                <Link
-                    to={`/snippet/${snippet.id}`}
-                    className="text-indigo-400 hover:text-indigo-300 text-sm flex items-center gap-1 font-medium"
-                >
-                    <HiEye /> View Code
-                </Link>
-                <button
-                    onClick={() => onDelete(snippet.id)}
-                    className="text-zinc-500 hover:text-red-400 p-1 rounded transition"
-                    title="Delete Snippet"
-                >
-                    <HiTrash size={18} />
-                </button>
-            </div>
+          <span className="rounded-full bg-zinc-700 px-2.5 py-1 font-mono text-xs uppercase tracking-wider text-indigo-300">
+            {language}
+          </span>
         </div>
-    );
-}
 
-export default SnippetCard
+        <p className="mb-4 line-clamp-2 text-sm text-zinc-400">
+          {description || "No description provided."}
+        </p>
+
+        <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-3 text-sm text-zinc-300">
+          <code>{code}</code>
+        </pre>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between border-t border-zinc-700 pt-3">
+        <Link
+          to={`/snippet/${id}`}
+          className="flex items-center gap-1 text-sm font-medium text-indigo-400 hover:text-indigo-300"
+        >
+          <HiEye />
+          View Code
+        </Link>
+
+        {onDelete && (
+          <button
+            onClick={() => onDelete(id)}
+            className="rounded p-1 text-zinc-500 transition hover:text-red-400"
+            title="Delete Snippet"
+          >
+            <HiTrash size={18} />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SnippetCard;
