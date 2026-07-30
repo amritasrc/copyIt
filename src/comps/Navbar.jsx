@@ -7,7 +7,7 @@ const Navbar = () => {
       <nav className='flex'>
         <div className='ml-5'>
           <Link to="/" className='flex items-center gap-2'>
-          <img src="/favicon.jpeg" className='w-10' alt="" />
+          <img src="/favicon.jpeg" className='w-8' alt="" />
           <span className='font-semibold'>CopyIt</span>
           </Link>
         </div>
