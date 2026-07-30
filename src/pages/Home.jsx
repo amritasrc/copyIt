@@ -21,11 +21,6 @@ const Home = () => {
     <div>
       <div>
         {data.map((item) => (
-          // <div>
-          //   <p key={item.id}>{item.title}</p>
-          //   <p key={item.id}>{item.language}</p>
-          //   <p key={item.id}>{item.code}</p>
-          // </div>
           <SnippetCard
             id={item.id}
             title={item.title}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { HiEye, HiTrash } from "react-icons/hi";
 
-const SnippetCard = ({ id, title, description, language, code, onDelete }) => {
+const SnippetCard = ({ id, title, description, lang, code, onDelete }) => {
   return (
     <div className="flex flex-col justify-between w-100 rounded-xl border border-zinc-700 bg-zinc-800 p-5 shadow-sm transition hover:border-indigo-500 hover:shadow-lg">
       <div>
@@ -11,7 +11,7 @@ const SnippetCard = ({ id, title, description, language, code, onDelete }) => {
           </h3>
 
           <span className="rounded-full bg-zinc-700 px-2.5 py-1 font-mono text-xs uppercase tracking-wider text-indigo-300">
-            {language}
+            {lang}
           </span>
         </div>
 
