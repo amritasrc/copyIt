@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import SnippetCard from "../comps/SnippetCard";
 import { HiSearch, HiCode, HiOutlinePlusCircle } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 const SkeletonCard = () => (
   <div className="animate-pulse rounded-xl border border-zinc-700 bg-zinc-800 p-5">
@@ -22,6 +23,8 @@ const SkeletonCard = () => (
 );
 
 const Home = () => {
+
+  const authStatus = useSelector((state) => state.auth.status);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -55,17 +58,17 @@ const Home = () => {
   );
 
   return (
-    <div className="mx-auto min-h-screen bg-zinc-900 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+    <div className="mx-auto grid place-items-center min-h-screen bg-zinc-100 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <div className="mx-auto mb-10 max-w-2xl text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-400">
           <HiCode className="h-4 w-4" />
           Your personal code snippet vault
         </div>
-        <h1 className="mb-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h1 className="mb-3 text-3xl font-bold tracking-tight text-black sm:text-4xl">
           Welcome to <span className="text-indigo-400">CopyIt</span>
         </h1>
-        <p className="mx-auto mb-6 max-w-lg text-base text-zinc-400">
+        <p className="mx-auto mb-6 max-w-lg text-base text-zinc-600">
           Save, organize, and quickly access your frequently used code snippets
           — all in one place.
         </p>
@@ -78,14 +81,24 @@ const Home = () => {
             placeholder="Search snippets by title, language, or description…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 py-3 pl-11 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+            className="w-full rounded-xl border border-zinc-700 bg-zinc-100 py-3 pl-11 pr-4 text-sm text-black placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
           />
         </div>
       </div>
 
       {/* Content Area */}
       <div className="mx-auto max-w-6xl">
-        {loading ? (
+        {!authStatus ? (
+          <div className="rounded-xl border border-zinc-700 bg-zinc-200 p-12 text-center">
+            <HiCode className="mx-auto mb-4 h-12 w-12 text-indigo-400" />
+            <h2 className="text-2xl font-semibold text-black">
+              Login to view your snippets
+            </h2>
+            <p className="mt-2 text-zinc-600">
+              Please log in to access your saved code snippets.
+            </p>
+          </div>
+        ) : loading ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
@@ -132,7 +145,7 @@ const Home = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Home;
