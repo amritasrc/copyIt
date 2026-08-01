@@ -1,6 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import authService from '../lib/auth';
+import { login, logout } from '../store/authSlice'
+import { useNavigate } from "react-router-dom";
+import { FaRoad } from "react-icons/fa";
 
 const Signup = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState("")
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,15 +25,34 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError("");
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match");
       return;
     }
 
-    console.log(formData);
+    try {
+      // Create account
+      await authService.createAccount({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Get logged-in user
+      const userData = await authService.getCurrentUser();
+
+      if (userData) {
+        dispatch(login(userData));
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -79,7 +108,7 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="w-full bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-950 transition"
+            className="w-full cursor-pointer bg-zinc-800 text-white py-3 rounded-lg hover:bg-zinc-950 transition"
           >
             Sign Up
           </button>
