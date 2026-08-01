@@ -1,18 +1,82 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import LogoutBtn from "./LogoutBtn"; 
 
 const Navbar = () => {
+  const authStatus = useSelector((state) => state.auth.status);
+  const navigate = useNavigate();
+
+  const navItems = [
+    {
+      name: "Home",
+      slug: "/",
+      active: true,
+    },
+    {
+      name: "Snippets",
+      slug: "/snippets",
+      active: authStatus,
+    },
+    {
+      name: "Create Snippet",
+      slug: "/create",
+      active: authStatus,
+    },
+    {
+      name: "Edit Snippet",
+      slug: "/edit",
+      active: authStatus
+    },
+    {
+      name: "Login",
+      slug: "/login",
+      active: !authStatus,
+    },
+    {
+      name: "Signup",
+      slug: "/signup",
+      active: !authStatus,
+    },
+  ];
+
   return (
-    <header className="py-3 bg-zinc-950 text-zinc-50">
-      <nav className="flex">
-        <div className="ml-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/favicon.jpeg" className="w-10 rounded-xl" alt="" />
-            <span className="font-semibold">CopyIt</span>
+    <header className="bg-zinc-950 py-3 text-zinc-50 shadow-md">
+      <nav className="mx-auto flex max-w-7xl items-center px-6">
+        {/* Logo */}
+        <div>
+          <Link to="/" className="flex items-center gap-3">
+            <img
+              src="/favicon.jpeg"
+              alt="CopyIt Logo"
+              className="h-10 w-10 rounded-xl"
+            />
+            <span className="text-xl font-bold">CopyIt</span>
           </Link>
         </div>
 
-        <ul></ul>
+        {/* Navigation */}
+        <ul className="ml-auto flex items-center gap-2">
+          {navItems.map(
+            (item) =>
+              item.active && (
+                <li key={item.name}>
+                  <button
+                    onClick={() => navigate(item.slug)}
+                    className="rounded-lg px-4 py-2 transition hover:bg-zinc-800"
+                  >
+                    {item.name}
+                  </button>
+                </li>
+              )
+          )}
+
+          {authStatus && (
+            <li>
+              <LogoutBtn />
+            </li>
+          )}
+        </ul>
       </nav>
     </header>
   );
