@@ -58,9 +58,9 @@ const Home = () => {
   );
 
   return (
-    <div className="mx-auto grid place-items-center min-h-screen bg-zinc-100 px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+    <div className="mx-auto flex flex-col justify-center items-center min-h-screen bg-zinc-100 px-4 pb-16 pt-10 sm:px-6 lg:px-8">
       {/* Hero Section */}
-      <div className="mx-auto mb-10 max-w-2xl text-center">
+      <div className="mx-auto mb-14 max-w-2xl text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-400">
           <HiCode className="h-4 w-4" />
           Your personal code snippet vault
@@ -68,13 +68,13 @@ const Home = () => {
         <h1 className="mb-3 text-3xl font-bold tracking-tight text-black sm:text-4xl">
           Welcome to <span className="text-indigo-400">CopyIt</span>
         </h1>
-        <p className="mx-auto mb-6 max-w-lg text-base text-zinc-600">
+        <p className="mx-auto mb-8 max-w-lg text-base text-zinc-600">
           Save, organize, and quickly access your frequently used code snippets
           — all in one place.
         </p>
 
         {/* Search Bar */}
-        <div className="relative mx-auto max-w-md">
+        <div className="relative mx-auto max-w-lg">
           <HiSearch className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-500" />
           <input
             type="text"
@@ -87,9 +87,9 @@ const Home = () => {
       </div>
 
       {/* Content Area */}
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto mt-8 max-w-6xl">
         {!authStatus ? (
-          <div className="rounded-xl border border-zinc-700 bg-zinc-200 p-12 text-center">
+          <div className="mx-auto max-w-lg rounded-xl bg-zinc-100 p-12 text-center">
             <HiCode className="mx-auto mb-4 h-12 w-12 text-indigo-400" />
             <h2 className="text-2xl font-semibold text-black">
               Login to view your snippets
@@ -105,7 +105,7 @@ const Home = () => {
             ))}
           </div>
         ) : error ? (
-          <div className="rounded-xl border border-red-800 bg-red-900/30 p-8 text-center">
+          <div className="mx-auto max-w-xl rounded-xl border border-dashed border-zinc-700 p-12 text-center">
             <p className="text-lg font-medium text-red-400">
               Failed to load snippets
             </p>
@@ -130,7 +130,7 @@ const Home = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item) => (
               <SnippetCard
                 key={item.id}
