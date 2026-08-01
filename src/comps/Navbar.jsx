@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-zinc-950 py-3 text-zinc-50 shadow-md">
-      <nav className="mx-auto flex max-w-7xl items-center px-6">
+      <nav className="flex items-center px-4">
         {/* Logo */}
         <div>
           <Link to="/" className="flex items-center gap-3">
