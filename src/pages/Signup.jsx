@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import authService from '../lib/auth';
-import { login, logout } from '../store/authSlice'
+import { login } from '../store/authSlice'
 import { useNavigate } from "react-router-dom";
-import { FaRoad } from "react-icons/fa";
 
 const Signup = () => {
 
@@ -36,19 +35,22 @@ const Signup = () => {
     }
 
     try {
-      // Create account
-      await authService.createAccount({
+      const data = await authService.createAccount({
         name: formData.name,
         email: formData.email,
         password: formData.password,
       });
 
-      // Get logged-in user
-      const userData = await authService.getCurrentUser();
-
-      if (userData) {
-        dispatch(login(userData));
+      if (data?.session) {
+        dispatch(login(data.session.user));
         navigate("/");
+      } else {
+        navigate("/login", {
+          state: {
+            message:
+              "Account created! Check your inbox to confirm your email, then log in.",
+          },
+        });
       }
     } catch (error) {
       setError(error.message);
@@ -66,6 +68,12 @@ const Signup = () => {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+              {error}
+            </p>
+          )}
+
           <input
             type="text"
             name="name"

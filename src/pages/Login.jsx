@@ -1,6 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import authService from "../lib/auth";
+import { login } from "../store/authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [error, setError] = useState(location.state?.message || "");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,10 +21,24 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    setError("");
+
+    try {
+      const data = await authService.login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (data?.user) {
+        dispatch(login(data.user));
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -31,6 +53,12 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+              {error}
+            </p>
+          )}
+
           <input
             type="email"
             name="email"

@@ -25,15 +25,16 @@ export class AuthService {
 
             if (error) throw error;
 
-            // Automatically login after signup
-            if (data.user) {
+            // When email confirmation is required, signUp returns no session
+            // until the user confirms their email, so skip auto-login.
+            if (data.session) {
                 return await this.login({ email, password });
             }
 
             return data;
         } catch (error) {
             console.log("Supabase service :: createAccount :: error", error);
-            return null;
+            throw error;
         }
     }
 
@@ -50,7 +51,7 @@ export class AuthService {
             return data;
         } catch (error) {
             console.log("Supabase service :: login :: error", error);
-            return null;
+            throw error;
         }
     }
 
