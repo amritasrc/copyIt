@@ -109,11 +109,17 @@ const CreateSnippet = () => {
                     </div>
 
                     {/* Monaco Editor */}
-                    <div className="overflow-hidden rounded-lg border border-zinc-300">
+                    <div className="relative overflow-hidden rounded-lg border border-zinc-300">
+                        {!code && (
+                            <div className="pointer-events-none absolute left-14 top-2 z-10 text-sm text-zinc-500">
+      // Paste your code snippet here...
+                            </div>
+                        )}
+
                         <Editor
                             height="320px"
                             defaultLanguage="javascript"
-                            value={code || "//Paste your code snippet here..."}
+                            value={code}
                             onChange={(value) => setCode(value || "")}
                             theme="vs-dark"
                             options={{
