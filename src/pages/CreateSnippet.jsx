@@ -5,6 +5,29 @@ import { HiOutlinePlusCircle } from "react-icons/hi";
 const CreateSnippet = () => {
     const [code, setCode] = useState("");
 
+    const languages = [
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "Java",
+        "C++",
+        "C",
+        "C#",
+        "Go",
+        "Rust",
+        "PHP",
+        "Ruby",
+        "Swift",
+        "Kotlin",
+        "Dart",
+        "SQL",
+        "HTML",
+        "CSS",
+        "Bash",
+        "JSON",
+        "YAML",
+    ];
+
     return (
         <div className="flex h-screen items-center justify-center bg-zinc-100 px-4">
             <div className="w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
@@ -22,31 +45,68 @@ const CreateSnippet = () => {
                 </div>
 
                 <form className="space-y-4">
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        className="w-full rounded-xl border border-zinc-700 bg-zinc-100 py-3 pl-11 pr-4 text-sm text-black placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
-                    />
+                    <div className="space-y-5">
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <input
-                            type="text"
-                            placeholder="Language"
-                            className="w-full rounded-xl border border-zinc-700 bg-zinc-100 py-3 pl-11 pr-4 text-sm text-black placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
-                        />
+                        {/* Title */}
+                        <div className="space-y-2">
+                            <label
+                                htmlFor="title"
+                                className="text-sm font-medium text-zinc-700"
+                            >
+                                Title
+                            </label>
+                            <input
+                                id="title"
+                                type="text"
+                                placeholder="e.g. Debounce Function"
+                                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors duration-200 focus:border-zinc-900"
+                            />
+                        </div>
 
-                        <input
-                            type="text"
-                            placeholder="Tags (optional)"
-                            className="w-full rounded-xl border border-zinc-700 bg-zinc-100 py-3 pl-11 pr-4 text-sm text-black placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
-                        />
+                        <div className="space-y-2">
+                            <label
+                                htmlFor="language"
+                                className="text-sm font-medium text-zinc-700"
+                            >
+                                Language
+                            </label>
+
+                            <select
+                                id="language"
+                                defaultValue=""
+                                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition-colors duration-200 focus:border-zinc-900"
+                            >
+                                <option value="" disabled>
+                                    Select a language
+                                </option>
+
+                                {languages.map((language) => (
+                                    <option
+                                        key={language}
+                                        value={language.toLowerCase().replace(/\s+/g, "-")}
+                                    >
+                                        {language}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {/* Description */}
+                        <div className="space-y-2">
+                            <label
+                                htmlFor="description"
+                                className="text-sm font-medium text-zinc-700"
+                            >
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                rows={4}
+                                placeholder="Write a short description..."
+                                className="w-full resize-none rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors duration-200 focus:border-zinc-900"
+                            />
+                        </div>
+
                     </div>
-
-                    <textarea
-                        rows={2}
-                        placeholder="Description (optional)"
-                        className="w-full rounded-xl border border-zinc-700 bg-zinc-100 py-3 pl-11 pr-4 text-sm text-black placeholder-zinc-500 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
-                    />
 
                     {/* Monaco Editor */}
                     <div className="overflow-hidden rounded-lg border border-zinc-300">
