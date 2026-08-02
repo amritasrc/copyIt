@@ -139,7 +139,7 @@ const CreateSnippet = () => {
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className="rounded-lg bg-indigo-500 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-600"
+                            className="rounded-lg cursor-pointer bg-purple-600 px-5 py-2 text-sm font-medium text-white hover:bg-purple-700"
                         >
                             Save Snippet
                         </button>
