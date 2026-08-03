@@ -8,7 +8,7 @@ import {
   HiTrash,
 } from "react-icons/hi";
 
-import snippetService from "../lib/config"; 
+import snippetService from "../lib/config";
 
 const ViewSnippet = () => {
   const { id } = useParams();
@@ -88,12 +88,14 @@ const ViewSnippet = () => {
               Copy
             </button>
 
-            <button
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium transition hover:bg-zinc-50"
-            >
-              <HiPencil />
-              Edit
-            </button>
+            <Link to={`/snippet/${id}/edit`}>
+              <button
+                className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium transition hover:bg-zinc-50"
+              >
+                <HiPencil />
+                Edit
+              </button>
+            </Link>
 
             <button
               className="flex cursor-pointer items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
