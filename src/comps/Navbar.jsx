@@ -19,11 +19,6 @@ const Navbar = () => {
       active: authStatus,
     },
     {
-      name: "Edit Snippet",
-      slug: "/edit",
-      active: authStatus
-    },
-    {
       name: "Login",
       slug: "/login",
       active: !authStatus,
