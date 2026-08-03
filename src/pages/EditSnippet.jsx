@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { HiArrowLeft, HiSave } from "react-icons/hi";
 import snippetService from "../lib/config";
-import { languages } from "../lib/languages";
+import languages from "../lib/languages";
 
 const EditSnippet = () => {
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
-import { languages } from "../lib/languages";
+import languages from "../lib/languages";
 
 const CreateSnippet = () => {
   const [code, setCode] = useState("");
