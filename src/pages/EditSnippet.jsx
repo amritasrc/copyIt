@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { HiArrowLeft, HiSave } from "react-icons/hi";
 import snippetService from "../lib/config";
+import { languages } from "../lib/languages";
 
 const EditSnippet = () => {
     const { id } = useParams();
@@ -17,22 +18,6 @@ const EditSnippet = () => {
         code: "",
         tags: "",
     });
-
-    const languages = [
-        { label: "JavaScript", value: "javascript" },
-        { label: "TypeScript", value: "typescript" },
-        { label: "Python", value: "python" },
-        { label: "Java", value: "java" },
-        { label: "C++", value: "cpp" },
-        { label: "C", value: "c" },
-        { label: "C#", value: "csharp" },
-        { label: "Go", value: "go" },
-        { label: "Rust", value: "rust" },
-        { label: "PHP", value: "php" },
-        { label: "HTML", value: "html" },
-        { label: "CSS", value: "css" },
-        { label: "SQL", value: "sql" },
-    ];
 
     useEffect(() => {
         const fetchSnippet = async () => {
