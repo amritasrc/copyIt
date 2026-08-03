@@ -1,7 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiEye, HiTrash } from "react-icons/hi";
+import { FaRegCopy, FaCheck } from "react-icons/fa";
 
 const SnippetCard = ({ id, title, description, lang, code, onDelete }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code);
+
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 400);
+  };
+
   return (
     <div className="flex flex-col justify-between rounded-xl bg-zinc-200 p-5 shadow-sm transition hover:border-indigo-500 hover:shadow-lg h-full">
       <div className="h-full overflow-hidden">
@@ -32,6 +45,30 @@ const SnippetCard = ({ id, title, description, lang, code, onDelete }) => {
           <HiEye />
           View Code
         </Link>
+        <button
+          onClick={handleCopy}
+          className="group relative flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-indigo-100"
+        >
+          <span
+            className={`absolute transition-all duration-300 ${
+              copied
+                ? "scale-0 rotate-90 opacity-0"
+                : "scale-100 rotate-0 opacity-100"
+            }`}
+          >
+            <FaRegCopy className="text-indigo-500" />
+          </span>
+
+          <span
+            className={`absolute transition-all duration-300 ${
+              copied
+                ? "scale-100 rotate-0 opacity-100"
+                : "scale-0 -rotate-90 opacity-0"
+            }`}
+          >
+            <FaCheck className="text-green-500" />
+          </span>
+        </button>
 
         {onDelete && (
           <button
