@@ -4,7 +4,7 @@ import { HiEye, HiTrash } from "react-icons/hi";
 const SnippetCard = ({ id, title, description, lang, code, onDelete }) => {
   return (
     <div className="flex flex-col justify-between rounded-xl bg-zinc-200 p-5 shadow-sm transition hover:border-indigo-500 hover:shadow-lg h-full">
-      <div className="h-full overflow-auto">
+      <div className="h-full overflow-hidden">
         <div className="mb-2 flex items-start justify-between">
           <h3 className="max-w-[70%] truncate text-lg font-semibold text-zinc-700">
             {title}
@@ -19,7 +19,7 @@ const SnippetCard = ({ id, title, description, lang, code, onDelete }) => {
           {description || "No description provided."}
         </p>
 
-        <pre className="overflow-auto rounded-lg bg-zinc-100 p-3 text-sm text-zinc-500 h-full">
+        <pre className="rounded-lg bg-zinc-100 p-3 text-sm text-zinc-500 h-full overflow-x-auto">
           <code>{code}</code>
         </pre>
       </div>
