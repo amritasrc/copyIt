@@ -14,11 +14,6 @@ const Navbar = () => {
       active: true,
     },
     {
-      name: "Snippets",
-      slug: "/snippets",
-      active: authStatus,
-    },
-    {
       name: "Create Snippet",
       slug: "/create",
       active: authStatus,
