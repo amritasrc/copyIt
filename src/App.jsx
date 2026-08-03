@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 import store from './store/store'
 import CreateSnippet from './pages/CreateSnippet'
 import { login, logout } from './store/authSlice'
+import EditSnippet from './pages/EditSnippet'
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
           <Route path='/signup' element={<Signup />} />
           <Route path='/create' element={<CreateSnippet />} />
           <Route path="/snippet/:id" element={<ViewSnippet />} />
+          <Route path="/snippet/:id/edit" element={<EditSnippet />} />
         </Routes>
       </main>
       <Footer />
