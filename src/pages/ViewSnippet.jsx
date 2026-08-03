@@ -6,6 +6,7 @@ import {
   HiOutlineClipboardCopy,
   HiPencil,
   HiTrash,
+  HiOutlineShare,
 } from "react-icons/hi";
 
 import snippetService from "../lib/config";
@@ -15,6 +16,28 @@ const ViewSnippet = () => {
 
   const [snippet, setSnippet] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [shared, setShared] = useState(false);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: snippet.title,
+          text: `Check out this code snippet: ${snippet.title}`,
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setShared(true);
+        setTimeout(() => setShared(false), 1500);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchSnippet = async () => {
@@ -86,6 +109,14 @@ const ViewSnippet = () => {
             >
               <HiOutlineClipboardCopy />
               Copy
+            </button>
+
+            <button
+              onClick={handleShare}
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium transition hover:bg-zinc-50"
+            >
+              <HiOutlineShare />
+              {shared ? "Link Copied!" : "Share"}
             </button>
 
             <Link to={`/snippet/${id}/edit`}>
