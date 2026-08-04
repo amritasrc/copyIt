@@ -2,7 +2,7 @@ import conf from "../config/conf";
 import supabase from "../lib/supabase";
 
 export class SnippetService {
-    async createSnippet({ title, code, description }) {
+    async createSnippet({ title, code, description, language }) {
         try {
             const { data, error } = await supabase
                 .from(conf.supabaseTable)
@@ -11,6 +11,7 @@ export class SnippetService {
                         title,
                         code,
                         description,
+                        language,
                     },
                 ])
                 .select()
@@ -25,7 +26,7 @@ export class SnippetService {
         }
     }
 
-    async updateSnippet(id, { title, code, description }) {
+    async updateSnippet(id, { title, code, description, language }) {
         try {
             const { data, error } = await supabase
                 .from(conf.supabaseTable)
@@ -33,6 +34,7 @@ export class SnippetService {
                     title,
                     code,
                     description,
+                    language,
                 })
                 .eq("id", id)
                 .select()

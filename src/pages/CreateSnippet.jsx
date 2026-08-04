@@ -1,91 +1,126 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import languages from "../lib/languages";
+import snippetService from "../lib/config";
 
 const CreateSnippet = () => {
-  const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("javascript");
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    language: "javascript",
+    code: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log("...........submittting...............")
+    const snippet = await snippetService.createSnippet(formData);
+
+    if (snippet) {
+      navigate(`/snippet/${snippet.id}`);
+    }
+  };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-zinc-100 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-100 px-4 py-8">
       <div className="w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
         {/* Header */}
         <div className="mb-5 flex items-center gap-2">
           <HiOutlinePlusCircle className="h-5 w-5 text-indigo-500" />
+
           <div>
             <h1 className="text-xl font-semibold text-zinc-900">
               Create Snippet
             </h1>
+
             <p className="text-sm text-zinc-500">
               Save a reusable code snippet.
             </p>
           </div>
         </div>
 
-        <form className="space-y-4">
-          <div className="space-y-5">
-            {/* Title */}
-            <div className="space-y-2">
-              <label
-                htmlFor="title"
-                className="text-sm font-medium text-zinc-700"
-              >
-                Title
-              </label>
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-              <input
-                id="title"
-                type="text"
-                placeholder="e.g. Debounce Function"
-                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors duration-200 focus:border-zinc-900"
-              />
-            </div>
+          {/* Title */}
+          <div className="space-y-2">
+            <label
+              htmlFor="title"
+              className="text-sm font-medium text-zinc-700"
+            >
+              Title
+            </label>
 
-            {/* Language */}
-            <div className="space-y-2">
-              <label
-                htmlFor="language"
-                className="text-sm font-medium text-zinc-700"
-              >
-                Language
-              </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="e.g. Debounce Function"
+              className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+              required
+            />
+          </div>
 
-              <select
-                id="language"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition-colors duration-200 focus:border-zinc-900"
-              >
-                {languages.map((lang) => (
-                  <option key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Language */}
+          <div className="space-y-2">
+            <label
+              htmlFor="language"
+              className="text-sm font-medium text-zinc-700"
+            >
+              Language
+            </label>
 
-            {/* Description */}
-            <div className="space-y-2">
-              <label
-                htmlFor="description"
-                className="text-sm font-medium text-zinc-700"
-              >
-                Description
-              </label>
+            <select
+              id="language"
+              name="language"
+              value={formData.language}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+            >
+              {languages.map((lang) => (
+                <option key={lang.value} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-              <textarea
-                id="description"
-                rows={4}
-                placeholder="Write a short description..."
-                className="w-full resize-none rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors duration-200 focus:border-zinc-900"
-              />
-            </div>
+          {/* Description */}
+          <div className="space-y-2">
+            <label
+              htmlFor="description"
+              className="text-sm font-medium text-zinc-700"
+            >
+              Description
+            </label>
+
+            <textarea
+              id="description"
+              name="description"
+              rows={4}
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Write a short description..."
+              className="w-full resize-none rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900"
+            />
           </div>
 
           {/* Monaco Editor */}
           <div className="relative overflow-hidden rounded-lg border border-zinc-300">
-            {!code && (
+            {!formData.code && (
               <div className="pointer-events-none absolute left-14 top-2 z-10 text-sm text-zinc-500">
                 // Paste your code snippet here...
               </div>
@@ -93,9 +128,14 @@ const CreateSnippet = () => {
 
             <Editor
               height="320px"
-              language={language}
-              value={code}
-              onChange={(value) => setCode(value || "")}
+              language={formData.language}
+              value={formData.code}
+              onChange={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  code: value || "",
+                }))
+              }
               theme="vs-dark"
               options={{
                 minimap: { enabled: false },
@@ -119,6 +159,7 @@ const CreateSnippet = () => {
               Save Snippet
             </button>
           </div>
+
         </form>
       </div>
     </div>
