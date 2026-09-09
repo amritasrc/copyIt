@@ -1,8 +1,5 @@
 import express from "express";
 import connectToMongoDB from "./connect.js";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const app = express();
 
@@ -17,7 +14,7 @@ app.get("/api/health", (req, res) => {
 
 const PORT = 3000;
 
-connectToMongoDB(process.env.MONGO_URI!);
+connectToMongoDB('mongodb://127.0.0.1:27017/copyit');
 
 app.listen(PORT, () => {
   console.log(`Server is up and running on http://localhost:${PORT}`);
