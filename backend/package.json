@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch index.ts",
+    "dev": "nodemon --exec tsx index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -21,7 +20,8 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/node": "^26.5.0",
+    "@types/node": "^26.5.1",
+    "nodemon": "^3.1.14",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }
