@@ -36,7 +36,10 @@ async function handleUserLogin(req: Request, res: Response) {
                     userId: user._id,
                     email: user.email,
                 },
-                process.env.JWT_SECRET!
+                process.env.JWT_SECRET!,
+                {
+                    expiresIn: "1h",
+                }
             );
 
             res.json({
