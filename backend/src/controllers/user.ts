@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user.js";
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 async function handleCreateNewUser(req: Request, res: Response) {
     const { username, email, password } = req.body;
@@ -30,8 +31,17 @@ async function handleUserLogin(req: Request, res: Response) {
         );
 
         if (isPasswordCorrect) {
+            const token = jwt.sign(
+                {
+                    userId: user._id,
+                    email: user.email,
+                },
+                process.env.JWT_SECRET!
+            );
+
             res.json({
-                message: "Login successful"
+                message: "Login successful",
+                token
             });
         } else {
             res.status(401).json({
