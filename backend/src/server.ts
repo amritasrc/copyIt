@@ -1,10 +1,12 @@
+import "dotenv/config";
 import app from "./app.js";
 import connectToMongoDB from "./connect.js";
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const MONGO_URI = process.env.MONGO_URI!;
 
 async function startServer() {
-  await connectToMongoDB("mongodb://127.0.0.1:27017/copyit");
+  await connectToMongoDB(MONGO_URI);
 
   app.listen(PORT, () => {
     console.log(`Server is up and running on http://localhost:${PORT}`);
