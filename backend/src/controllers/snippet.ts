@@ -53,7 +53,41 @@ async function handleGetSingleSnippet(req: Request, res: Response) {
 
 }
 
+async function handleUpdateSnippet(req: Request, res: Response) {
+    const snippetId = req.params.id;
+    const userId = req.user?.userId;
 
+    const { title, code, language } = req.body;
+
+    const snippet = await Snippet.findOneAndUpdate(
+        {
+            _id: snippetId,
+            user: userId
+        },
+        {
+            title,
+            code,
+            language
+        },
+        {
+            new: true,
+        }
+    );
+
+    if (!snippet) {
+        return res.status(404).json({
+            success: false,
+            message: "Snippet not found",
+        });
+    }
+
+    res.json({
+        success: true,
+        message: "Snippet updated successfully",
+        snippet,
+    });
+
+}
 
 export {
     handleCreateSnippet,
