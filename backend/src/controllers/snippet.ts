@@ -70,7 +70,7 @@ async function handleUpdateSnippet(req: Request, res: Response) {
             language
         },
         {
-            new: true,
+            after: true,
         }
     );
 
@@ -89,9 +89,35 @@ async function handleUpdateSnippet(req: Request, res: Response) {
 
 }
 
+async function handleDeleteSnippet(req: Request, res: Response) {
+    const snippetId = req.params.id;
+    const userId = req.user?.userId;
+
+    const snippet = await Snippet.findOneAndDelete(
+        {
+            _id: snippetId,
+            user: userId
+        }
+    );
+
+    if (!snippet) {
+        return res.status(404).json({
+            success: false,
+            message: "Snippet not found",
+        });
+    }
+
+    res.json({
+        success: true,
+        message: "Snippet deleted successfully"
+    });
+
+}
+
 export {
     handleCreateSnippet,
     handleGetUserSnippets,
     handleGetSingleSnippet,
     handleUpdateSnippet,
+    handleDeleteSnippet
 };
