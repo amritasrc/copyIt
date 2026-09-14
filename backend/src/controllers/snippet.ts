@@ -1,8 +1,17 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import Snippet from "../models/snippet.js";
 
 async function handleCreateSnippet(req: Request, res: Response) {
     const { title, code, language } = req.body;
+
+    if (!title || !code || !language) {
+        return res.status(400).json({
+            success: false,
+            message: "Title, code and language are required",
+        });
+    }
+
     const userId = req.user?.userId;
 
     const snippet = await Snippet.create({
@@ -31,8 +40,15 @@ async function handleGetUserSnippets(req: Request, res: Response) {
 }
 
 async function handleGetSingleSnippet(req: Request, res: Response) {
-    const snippetId = req.params.id;
+    const snippetId = req.params.id as string;
     const userId = req.user?.userId;
+
+    if (!mongoose.Types.ObjectId.isValid(snippetId)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid snippet ID",
+        });
+    }
 
     const snippet = await Snippet.findOne({
         _id: snippetId,
@@ -54,10 +70,24 @@ async function handleGetSingleSnippet(req: Request, res: Response) {
 }
 
 async function handleUpdateSnippet(req: Request, res: Response) {
-    const snippetId = req.params.id;
+    const snippetId = req.params.id as string;
     const userId = req.user?.userId;
 
+    if (!mongoose.Types.ObjectId.isValid(snippetId)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid snippet ID",
+        });
+    }
+
     const { title, code, language } = req.body;
+
+    if (!title || !code || !language) {
+        return res.status(400).json({
+            success: false,
+            message: "Title, code and language are required",
+        });
+    }
 
     const snippet = await Snippet.findOneAndUpdate(
         {
@@ -90,8 +120,15 @@ async function handleUpdateSnippet(req: Request, res: Response) {
 }
 
 async function handleDeleteSnippet(req: Request, res: Response) {
-    const snippetId = req.params.id;
+    const snippetId = req.params.id as string;
     const userId = req.user?.userId;
+
+    if (!mongoose.Types.ObjectId.isValid(snippetId)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid snippet ID",
+        });
+    }
 
     const snippet = await Snippet.findOneAndDelete(
         {
