@@ -19,4 +19,45 @@ async function handleCreateSnippet(req: Request, res: Response) {
     });
 }
 
-export { handleCreateSnippet };
+async function handleGetUserSnippets(req: Request, res: Response) {
+    const userId = req.user?.userId;
+
+    const snippets = await Snippet.find({ user: userId });
+
+    res.json({
+        success: true,
+        snippets,
+    });
+}
+
+async function handleGetSingleSnippet(req: Request, res: Response) {
+    const snippetId = req.params.id;
+    const userId = req.user?.userId;
+
+    const snippet = await Snippet.findOne({
+        _id: snippetId,
+        user: userId
+    });
+
+    if (!snippet) {
+        return res.status(404).json({
+            success: false,
+            message: "Snippet not found",
+        });
+    }
+
+    res.json({
+        success: true,
+        snippet,
+    });
+
+}
+
+
+
+export {
+    handleCreateSnippet,
+    handleGetUserSnippets,
+    handleGetSingleSnippet,
+    handleUpdateSnippet,
+};
