@@ -6,7 +6,28 @@ import jwt from "jsonwebtoken";
 async function handleCreateNewUser(req: Request, res: Response) {
     const { username, email, password } = req.body;
 
-        const existingUser = await User.findOne({
+    if (!username || !email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Username, email and password are required",
+        });
+    }
+
+    if (!email.includes("@")) {
+        return res.status(400).json({
+            success: false,
+            message: "Please provide a valid email",
+        });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({
+            success: false,
+            message: "Password must be at least 6 characters"
+        });
+    }
+
+    const existingUser = await User.findOne({
         $or: [
             { username },
             { email }
@@ -36,6 +57,13 @@ async function handleCreateNewUser(req: Request, res: Response) {
 
 async function handleUserLogin(req: Request, res: Response) {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Email and password are required",
+        });
+    }
 
     const user = await User.findOne({ email });
 
