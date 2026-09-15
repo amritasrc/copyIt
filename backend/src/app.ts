@@ -1,6 +1,7 @@
 import express from "express";
 import router from './routes/user.js'
 import snippetRouter from "./routes/snippet.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.use(express.json());
 
 app.use('/api/users', router);
 app.use('/api/snippets', snippetRouter);
+
+app.use(errorHandler);
 
 app.get("/api/health", (req, res) => {
   res.json({
