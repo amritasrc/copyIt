@@ -5,12 +5,18 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        api.post("/users/login", {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        console.log("Login button clicked");
+        console.log({ email, password });
+
+        const response = await api.post("/users/login", {
             email,
             password,
         });
+
+        localStorage.setItem("token", response.data.token);
     }
 
     return (
