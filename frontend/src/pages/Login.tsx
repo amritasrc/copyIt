@@ -1,12 +1,16 @@
 import { useState } from 'react'
+import axios from 'axios';
 import api from "../api/axios";
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        setError("");
 
         console.log("Login button clicked");
         console.log({ email, password });
@@ -21,7 +25,9 @@ const Login = () => {
 
             console.log(response.data);
         } catch (error) {
-            console.log(error);
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message || "Something went wrong");
+            }
         }
     };
 
@@ -87,6 +93,12 @@ const Login = () => {
                             Remember me
                         </label>
                     </div>
+
+                    {error && (
+                        <p className="text-sm text-red-500">
+                            {error}
+                        </p>
+                    )}
 
                     <button
                         type="submit"
