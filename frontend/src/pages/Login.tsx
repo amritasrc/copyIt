@@ -11,13 +11,19 @@ const Login = () => {
         console.log("Login button clicked");
         console.log({ email, password });
 
-        const response = await api.post("/users/login", {
-            email,
-            password,
-        });
+        try {
+            const response = await api.post("/users/login", {
+                email,
+                password,
+            });
 
-        localStorage.setItem("token", response.data.token);
-    }
+            localStorage.setItem("token", response.data.token);
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-12">
