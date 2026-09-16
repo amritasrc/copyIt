@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import api from '../api/axios'
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const [username, setUsername] = useState('')
@@ -8,6 +9,8 @@ const Signup = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,6 +33,7 @@ const Signup = () => {
             });
 
             console.log(response.data);
+            navigate("/login");
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || "Something went wrong");
@@ -135,9 +139,12 @@ const Signup = () => {
 
                 <p className="mt-6 text-center text-sm text-neutral-500">
                     Already have an account?{' '}
-                    <a href="/login" className="font-medium text-neutral-900 underline-offset-4 hover:underline">
+                    <Link
+                        to="/login"
+                        className="font-medium text-neutral-900 underline-offset-4 hover:underline"
+                    >
                         Sign in
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
