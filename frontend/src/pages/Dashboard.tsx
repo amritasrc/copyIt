@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import api from "../api/axios";
 import {
     FiBell,
     FiBookmark,
@@ -34,7 +36,34 @@ const quickActions = [
     { label: "Organize your workflow", description: "Group snippets into folders and tags.", icon: FiFolder, tint: "bg-sky-50 text-sky-600" },
 ];
 
+interface Snippet {
+    _id: string;
+    title: string;
+    code: string;
+    language: string;
+    createdAt: string;
+}
+
 const Dashboard = () => {
+
+    const [snippets, setSnippets] = useState<Snippet[]>([]);
+
+    useEffect(() => {
+        const fetchSnippets = async () => {
+            try {
+                const response = await api.get("/snippets");
+
+                console.log(response.data);
+
+                setSnippets(response.data.snippets);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchSnippets();
+    }, []);
+
     return (
         <div className="min-h-screen bg-stone-100">
             <header className="sticky top-0 z-10 border-b border-stone-200 bg-white/95">
@@ -52,8 +81,8 @@ const Dashboard = () => {
                                 key={item.label}
                                 href="#"
                                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${item.active
-                                        ? "bg-indigo-50 text-indigo-600"
-                                        : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
+                                    ? "bg-indigo-50 text-indigo-600"
+                                    : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
                                     }`}
                             >
                                 {item.label}
@@ -170,40 +199,55 @@ const Dashboard = () => {
                         </a>
                     </div>
 
-                    <div className="mt-4 rounded-xl border border-stone-200 bg-white px-6 py-12 shadow-sm">
-                        <div className="mx-auto max-w-md">
-                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                                <FiCode className="h-6 w-6" />
-                            </div>
-                            <h3 className="mt-5 text-center text-base font-semibold text-neutral-900">No snippets yet</h3>
-                            <p className="mt-1.5 text-center text-sm text-neutral-500">
-                                Your saved code snippets will appear here.
-                            </p>
+                    <div className="mt-4 space-y-3">
+                        {snippets.length === 0 ? (
+                            <div className="rounded-xl border border-stone-200 bg-white px-6 py-12 shadow-sm">
+                                <div className="mx-auto max-w-md text-center">
+                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                                        <FiCode className="h-6 w-6" />
+                                    </div>
 
-                            <div className="mt-6 overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
-                                <div className="flex items-center gap-1.5 border-b border-stone-200 bg-white px-4 py-2.5">
-                                    <span className="h-2.5 w-2.5 rounded-full bg-red-300" />
-                                    <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-                                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                                    <span className="ml-2 font-mono text-xs text-neutral-400">untitled-snippet.ts</span>
-                                </div>
-                                <div className="space-y-2 px-4 py-4 font-mono text-xs text-neutral-400">
-                                    <div className="h-2.5 w-2/3 rounded bg-stone-200" />
-                                    <div className="h-2.5 w-1/2 rounded bg-stone-200" />
-                                    <div className="h-2.5 w-3/4 rounded bg-stone-200" />
+                                    <h3 className="mt-5 text-base font-semibold text-neutral-900">
+                                        No snippets yet
+                                    </h3>
+
+                                    <p className="mt-1.5 text-sm text-neutral-500">
+                                        Your saved code snippets will appear here.
+                                    </p>
+
+                                    <div className="mt-6">
+                                        <Link
+                                            to="/create"
+                                            className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-indigo-500"
+                                        >
+                                            <FiPlus className="h-4 w-4" />
+                                            Create your first snippet
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div className="mt-6 text-center">
-                                <Link
-                                    to='/create'
-                                    className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
+                        ) : (
+                            snippets.map((snippet) => (
+                                <div
+                                    key={snippet._id}
+                                    className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm"
                                 >
-                                    <FiPlus className="h-4 w-4" />
-                                    Create your first snippet
-                                </Link>
-                            </div>
-                        </div>
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="font-semibold text-neutral-900">
+                                            {snippet.title}
+                                        </h3>
+
+                                        <span className="rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
+                                            {snippet.language}
+                                        </span>
+                                    </div>
+
+                                    <p className="mt-3 line-clamp-2 font-mono text-sm text-neutral-500">
+                                        {snippet.code}
+                                    </p>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </section>
             </main>
