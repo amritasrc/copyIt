@@ -22,7 +22,7 @@ app.use(errorHandler);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "CopyIt API is running",
+    message: "CopyIt API is running.",
   });
 });
 

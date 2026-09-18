@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreateSnippet from "./pages/CreateSnippet";
+import SnippetDetails from "./pages/SnippetDetails";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create" element={<CreateSnippet />} />
+          <Route path="/snippets/:id" element={<SnippetDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
