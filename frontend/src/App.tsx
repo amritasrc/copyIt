@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreateSnippet from "./pages/CreateSnippet";
 import SnippetDetails from "./pages/SnippetDetails";
+import EditSnippet from "./pages/EditSnippet";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create" element={<CreateSnippet />} />
           <Route path="/snippets/:id" element={<SnippetDetails />} />
+          <Route path="/snippets/:id/edit" element={<EditSnippet />} />
         </Route>
       </Routes>
     </BrowserRouter>
