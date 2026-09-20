@@ -30,18 +30,21 @@ const quickActions = [
         description: "Drop in a title, language, and your code.",
         icon: FiPlus,
         tint: "bg-indigo-50 text-indigo-600",
+        path: "/create",
     },
     {
         label: "Save your best code",
         description: "Keep the snippets you reach for most.",
         icon: FiBookmark,
         tint: "bg-violet-50 text-violet-600",
+        path: "/favorites",
     },
     {
         label: "Organize your workflow",
         description: "Group snippets into folders and tags.",
         icon: FiFolder,
         tint: "bg-sky-50 text-sky-600",
+        path: "#",
     },
 ];
 
@@ -314,9 +317,9 @@ const Dashboard = () => {
 
                     <div className="mt-4 grid gap-4 md:grid-cols-3">
                         {quickActions.map((action) => (
-                            <a
+                            <Link
+                                to={action.path}
                                 key={action.label}
-                                href="#"
                                 className="group rounded-xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                             >
                                 <div
@@ -336,7 +339,7 @@ const Dashboard = () => {
                                 <p className="mt-1 text-sm text-neutral-500">
                                     {action.description}
                                 </p>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </section>
