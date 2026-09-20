@@ -10,6 +10,7 @@ import SnippetDetails from "./pages/SnippetDetails";
 import EditSnippet from "./pages/EditSnippet";
 import Snippets from "./pages/Snippets";
 import Favorites from "./pages/Favorites";
+import SharedSnippet from "./pages/SharedSnippet";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/share/:shareId" element={<SharedSnippet />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create" element={<CreateSnippet />} />
