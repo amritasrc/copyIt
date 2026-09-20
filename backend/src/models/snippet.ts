@@ -17,6 +17,11 @@ const snippetSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    shareId: {
+        type: String,
+        unique: true,
+        sparse: true,
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
