@@ -6,8 +6,6 @@ function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.error(err);
-
   res.status(500).json({
     success: false,
     message: "Something went wrong",

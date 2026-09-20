@@ -27,7 +27,6 @@ const SharedSnippet = () => {
 
                 setSnippet(response.data.snippet);
             } catch (error) {
-                console.error(error);
                 setNotFound(true);
             } finally {
                 setLoading(false);

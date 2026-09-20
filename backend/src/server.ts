@@ -8,9 +8,7 @@ const MONGO_URI = process.env.MONGO_URI!;
 async function startServer() {
   await connectToMongoDB(MONGO_URI);
 
-  app.listen(PORT, () => {
-    console.log(`Server is up and running on http://localhost:${PORT}`);
-  });
+  app.listen(PORT);
 }
 
 startServer();

@@ -26,8 +26,7 @@ const Favorites = () => {
                         (snippet: Snippet) => snippet.isFavorite
                     )
                 );
-            } catch (error) {
-                console.error(error);
+            } catch {
             } finally {
                 setLoading(false);
             }

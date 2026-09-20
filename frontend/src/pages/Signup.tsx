@@ -17,22 +17,18 @@ const Signup = () => {
 
         setError("");
 
-        console.log("Create Account button clicked");
-        console.log({ username, email, password, confirmPassword });
-
         if (password !== confirmPassword) {
             setError("Passwords do not match");
             return;
         }
 
         try {
-            const response = await api.post("/users/create", {
+            await api.post("/users/create", {
                 username,
                 email,
                 password,
             });
 
-            console.log(response.data);
             navigate("/login");
         } catch (error) {
             if (axios.isAxiosError(error)) {

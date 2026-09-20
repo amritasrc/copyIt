@@ -22,8 +22,7 @@ const Snippets = () => {
             try {
                 const response = await api.get("/snippets");
                 setSnippets(response.data.snippets);
-            } catch (error) {
-                console.error(error);
+            } catch {
             } finally {
                 setLoading(false);
             }

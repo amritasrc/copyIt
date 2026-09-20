@@ -28,17 +28,14 @@ const CreateSnippet = () => {
         e.preventDefault();
 
         try {
-            const response = await api.post("/snippets", {
+            await api.post("/snippets", {
                 title,
                 language,
                 code,
             });
 
-            console.log(response.data);
             navigate("/dashboard");
-        } catch (error) {
-            console.error(error);
-        }
+        } catch { }
     };
 
     return (

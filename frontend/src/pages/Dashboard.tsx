@@ -68,12 +68,8 @@ const Dashboard = () => {
             try {
                 const response = await api.get("/snippets");
 
-                console.log(response.data);
-
                 setSnippets(response.data.snippets);
-            } catch (error) {
-                console.error(error);
-            }
+            } catch { }
         };
 
         fetchSnippets();

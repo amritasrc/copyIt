@@ -67,9 +67,7 @@ const SnippetDetails = () => {
             await navigator.clipboard.writeText(snippet!.code);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-        } catch (error) {
-            console.error(error);
-        }
+        } catch { }
     };
 
     const handleFavorite = async () => {
@@ -79,9 +77,7 @@ const SnippetDetails = () => {
             );
 
             setFavorite(response.data.isFavorite);
-        } catch (error) {
-            console.error(error);
-        }
+        } catch { }
     };
 
     const handleDelete = async () => {
@@ -93,7 +89,6 @@ const SnippetDetails = () => {
             await api.delete(`/snippets/${id}`);
             navigate("/dashboard");
         } catch (error) {
-            console.error(error);
             setDeleting(false);
         }
     };
@@ -107,9 +102,7 @@ const SnippetDetails = () => {
             await navigator.clipboard.writeText(shareUrl);
 
             alert("Share link copied!");
-        } catch (error) {
-            console.error(error);
-        }
+        } catch { }
     };
 
     if (loading) {

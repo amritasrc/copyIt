@@ -15,9 +15,6 @@ const Login = () => {
 
         setError("");
 
-        console.log("Login button clicked");
-        console.log({ email, password });
-
         try {
             const response = await api.post("/users/login", {
                 email,
@@ -27,8 +24,6 @@ const Login = () => {
             localStorage.setItem("token", response.data.token);
 
             navigate("/dashboard");
-
-            console.log(response.data);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || "Something went wrong");

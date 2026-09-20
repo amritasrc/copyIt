@@ -187,7 +187,6 @@ async function toggleFavorite(req: Request, res: Response) {
             isFavorite: snippet.isFavorite,
         });
     } catch (error) {
-        console.error(error);
 
         res.status(500).json({
             success: false,
@@ -229,7 +228,6 @@ async function createShareLink(req: Request, res: Response) {
       shareId: snippet.shareId,
     });
   } catch (error) {
-    console.error(error);
 
     res.status(500).json({
       success: false,
@@ -258,7 +256,6 @@ async function getSharedSnippet(req: Request, res: Response) {
             snippet,
         });
     } catch (error) {
-        console.error(error);
 
         res.status(500).json({
             success: false,
