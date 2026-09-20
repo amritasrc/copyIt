@@ -171,18 +171,27 @@ const Dashboard = () => {
                     />
 
                     <nav className="hidden items-center gap-1 sm:flex">
-                        {navItems.map((item) => (
-                            <a
-                                key={item.label}
-                                href="#"
-                                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${item.active
-                                    ? "bg-indigo-50 text-indigo-600"
-                                    : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
-                                    }`}
-                            >
-                                {item.label}
-                            </a>
-                        ))}
+                        {navItems.map((item) => {
+                            const path =
+                                item.label === "Dashboard"
+                                    ? "/dashboard"
+                                    : item.label === "Snippets"
+                                        ? "/snippets"
+                                        : "/favorites";
+
+                            return (
+                                <Link
+                                    key={item.label}
+                                    to={path}
+                                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${item.active
+                                        ? "bg-indigo-50 text-indigo-600"
+                                        : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
+                                        }`}
+                                >
+                                    {item.label}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     <div className="ml-auto flex items-center gap-2 sm:gap-3">
@@ -339,12 +348,12 @@ const Dashboard = () => {
                             Recent Snippets
                         </h2>
 
-                        <a
-                            href="#"
-                            className="text-sm font-medium text-neutral-500 transition-colors hover:text-indigo-600"
+                        <Link
+                            to="/snippets"
+                            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                         >
                             View all
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="mt-4 space-y-3">
@@ -390,7 +399,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         ) : (
-                            filteredSnippets.map((snippet) => (
+                            filteredSnippets.slice(0, 2).map((snippet) => (
                                 <Link
                                     key={snippet._id}
                                     to={`/snippets/${snippet._id}`}
