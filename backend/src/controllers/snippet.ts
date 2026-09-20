@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { nanoid } from "nanoid";
 import Snippet from "../models/snippet.js";
 
 async function handleCreateSnippet(req: Request, res: Response) {
@@ -193,7 +194,49 @@ async function toggleFavorite(req: Request, res: Response) {
             message: "Something went wrong",
         });
     }
-};
+}
+
+async function createShareLink(req: Request, res: Response) {
+  try {
+    const snippetId = req.params.id as string;
+
+    if (!mongoose.Types.ObjectId.isValid(snippetId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid snippet ID",
+      });
+    }
+
+    const snippet = await Snippet.findOne({
+      _id: snippetId,
+      user: req.user?.userId,
+    });
+
+    if (!snippet) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found",
+      });
+    }
+
+    if (!snippet.shareId) {
+      snippet.shareId = nanoid(10);
+      await snippet.save();
+    }
+
+    res.json({
+      success: true,
+      shareId: snippet.shareId,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+}
 
 export {
     handleCreateSnippet,
@@ -202,4 +245,5 @@ export {
     handleUpdateSnippet,
     handleDeleteSnippet,
     toggleFavorite,
+    createShareLink,
 };
