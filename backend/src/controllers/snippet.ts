@@ -238,6 +238,35 @@ async function createShareLink(req: Request, res: Response) {
   }
 }
 
+async function getSharedSnippet(req: Request, res: Response) {
+    try {
+        const shareId = req.params.shareId as string;
+
+        const snippet = await Snippet.findOne({
+            shareId,
+        }).select("title code language createdAt");
+
+        if (!snippet) {
+            return res.status(404).json({
+                success: false,
+                message: "Shared snippet not found",
+            });
+        }
+
+        res.json({
+            success: true,
+            snippet,
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+        });
+    }
+}
+
 export {
     handleCreateSnippet,
     handleGetUserSnippets,
@@ -246,4 +275,5 @@ export {
     handleDeleteSnippet,
     toggleFavorite,
     createShareLink,
+    getSharedSnippet,
 };
