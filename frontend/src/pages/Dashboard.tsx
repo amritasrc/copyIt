@@ -51,6 +51,7 @@ interface Snippet {
     code: string;
     language: string;
     createdAt: string;
+    isFavorite: boolean;
 }
 
 const Dashboard = () => {
@@ -89,15 +90,19 @@ const Dashboard = () => {
         snippets.map((snippet) => snippet.language)
     ).size;
 
+    const favoriteSnippets = snippets.filter(
+        (snippet) => snippet.isFavorite
+    ).length;
+
     const recentlyAdded =
         snippets.length > 0
             ? new Date(
-                  Math.max(
-                      ...snippets.map((snippet) =>
-                          new Date(snippet.createdAt).getTime()
-                      )
-                  )
-              ).toLocaleDateString()
+                Math.max(
+                    ...snippets.map((snippet) =>
+                        new Date(snippet.createdAt).getTime()
+                    )
+                )
+            ).toLocaleDateString()
             : "—";
 
     const dashboardStats = [
@@ -115,8 +120,11 @@ const Dashboard = () => {
         {
             id: "favorites",
             label: "Favorites",
-            value: "0",
-            hint: "Star snippets you love",
+            value: favoriteSnippets.toString(),
+            hint:
+                favoriteSnippets === 0
+                    ? "Star snippets you love"
+                    : "Snippets you've favorited",
             icon: FiHeart,
             tint: "bg-violet-50 text-violet-600",
         },
@@ -167,11 +175,10 @@ const Dashboard = () => {
                             <a
                                 key={item.label}
                                 href="#"
-                                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                                    item.active
-                                        ? "bg-indigo-50 text-indigo-600"
-                                        : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
-                                }`}
+                                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${item.active
+                                    ? "bg-indigo-50 text-indigo-600"
+                                    : "text-neutral-600 hover:bg-stone-100 hover:text-neutral-900"
+                                    }`}
                             >
                                 {item.label}
                             </a>
