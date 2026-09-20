@@ -6,17 +6,13 @@ import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(express.urlencoded());
-app.use(express.json());
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.FRONTEND_URL,
-].filter(Boolean) as string[];
-
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true
+    origin: [
+      "http://localhost:5173",
+      "https://copy-it-iota.vercel.app",
+    ],
+    credentials: true,
   })
 );
 
