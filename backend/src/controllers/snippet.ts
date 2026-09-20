@@ -151,10 +151,55 @@ async function handleDeleteSnippet(req: Request, res: Response) {
 
 }
 
+async function toggleFavorite(req: Request, res: Response) {
+    try {
+        const snippetId = req.params.id as string;
+
+        if (!mongoose.Types.ObjectId.isValid(snippetId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid snippet ID",
+            });
+        }
+
+        const snippet = await Snippet.findOne({
+            _id: snippetId,
+            user: req.user?.userId,
+        });
+
+        if (!snippet) {
+            return res.status(404).json({
+                success: false,
+                message: "Snippet not found",
+            });
+        }
+
+        snippet.isFavorite = !snippet.isFavorite;
+
+        await snippet.save();
+
+        res.json({
+            success: true,
+            message: snippet.isFavorite
+                ? "Snippet added to favorites"
+                : "Snippet removed from favorites",
+            isFavorite: snippet.isFavorite,
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+        });
+    }
+};
+
 export {
     handleCreateSnippet,
     handleGetUserSnippets,
     handleGetSingleSnippet,
     handleUpdateSnippet,
-    handleDeleteSnippet
+    handleDeleteSnippet,
+    toggleFavorite,
 };

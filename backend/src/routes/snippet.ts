@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../middlewares/auth.js";
-import { handleCreateSnippet, handleGetUserSnippets, handleGetSingleSnippet, handleUpdateSnippet, handleDeleteSnippet } from "../controllers/snippet.js";
+import { handleCreateSnippet, handleGetUserSnippets, handleGetSingleSnippet, handleUpdateSnippet, handleDeleteSnippet, toggleFavorite } from "../controllers/snippet.js";
 
 const router = Router();
 
@@ -13,6 +13,8 @@ router.get("/:id", authMiddleware, handleGetSingleSnippet);
 router.patch("/:id", authMiddleware, handleUpdateSnippet);
 
 router.delete("/:id", authMiddleware, handleDeleteSnippet);
+
+router.patch("/:id/favorite", authMiddleware, toggleFavorite);
 
 
 export default router;
