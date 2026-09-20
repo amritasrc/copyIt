@@ -13,7 +13,8 @@ import {
     FiTerminal,
     FiTrash2,
     FiUser,
-    FiEdit2
+    FiEdit2,
+    FiHeart,
 } from "react-icons/fi";
 
 interface Snippet {
@@ -23,6 +24,7 @@ interface Snippet {
     language: string;
     createdAt: string;
     updatedAt: string;
+    isFavorite: boolean;
 }
 
 const formatDate = (date: string) =>
@@ -41,12 +43,14 @@ const SnippetDetails = () => {
     const [notFound, setNotFound] = useState(false);
     const [copied, setCopied] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [favorite, setFavorite] = useState(false);
 
     useEffect(() => {
         const fetchSnippet = async () => {
             try {
                 const response = await api.get(`/snippets/${id}`);
                 setSnippet(response.data.snippet);
+                setFavorite(response.data.snippet.isFavorite);
             } catch {
                 setNotFound(true);
             } finally {
@@ -62,6 +66,18 @@ const SnippetDetails = () => {
             await navigator.clipboard.writeText(snippet!.code);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleFavorite = async () => {
+        try {
+            const response = await api.patch(
+                `/snippets/${id}/favorite`
+            );
+
+            setFavorite(response.data.isFavorite);
         } catch (error) {
             console.error(error);
         }
@@ -225,6 +241,19 @@ const SnippetDetails = () => {
                             ><FiEdit2 className="h-4 w-4" />
                                 Edit
                             </Link>
+                            <button
+                                type="button"
+                                onClick={handleFavorite}
+                                className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition ${favorite
+                                        ? "bg-violet-100 text-violet-600"
+                                        : "bg-stone-100 text-neutral-600 hover:bg-violet-50 hover:text-violet-600"
+                                    }`}
+                            >
+                                <FiHeart
+                                    className={`h-4 w-4 ${favorite ? "fill-red-500" : ""}`}
+                                />
+                                Favorite
+                            </button>
                         </div>
                     </div>
                 </section>
