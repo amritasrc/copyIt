@@ -17,13 +17,13 @@ app.use(
 app.use('/api/users', router);
 app.use('/api/snippets', snippetRouter);
 
-app.use(errorHandler);
-
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
     message: "CopyIt API is running.",
   });
 });
+
+app.use(errorHandler);
 
 export default app;

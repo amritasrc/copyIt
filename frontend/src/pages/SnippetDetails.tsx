@@ -15,6 +15,7 @@ import {
     FiUser,
     FiEdit2,
     FiHeart,
+    FiShare2,
 } from "react-icons/fi";
 
 interface Snippet {
@@ -94,6 +95,20 @@ const SnippetDetails = () => {
         } catch (error) {
             console.error(error);
             setDeleting(false);
+        }
+    };
+
+    const handleShare = async () => {
+        try {
+            const response = await api.post(`/snippets/${id}/share`);
+
+            const shareUrl = `${window.location.origin}/share/${response.data.shareId}`;
+
+            await navigator.clipboard.writeText(shareUrl);
+
+            alert("Share link copied!");
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -245,14 +260,22 @@ const SnippetDetails = () => {
                                 type="button"
                                 onClick={handleFavorite}
                                 className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition ${favorite
-                                        ? "bg-violet-100 text-violet-600"
-                                        : "bg-stone-100 text-neutral-600 hover:bg-violet-50 hover:text-violet-600"
+                                    ? "bg-violet-100 text-violet-600"
+                                    : "bg-stone-100 text-neutral-600 hover:bg-violet-50 hover:text-violet-600"
                                     }`}
                             >
                                 <FiHeart
                                     className={`h-4 w-4 ${favorite ? "fill-red-500" : ""}`}
                                 />
                                 Favorite
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleShare}
+                                className="inline-flex items-center gap-2 rounded-md bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-600 transition hover:bg-indigo-100"
+                            >
+                                <FiShare2 className="h-4 w-4" />
+                                Share
                             </button>
                         </div>
                     </div>
