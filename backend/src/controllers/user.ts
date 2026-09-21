@@ -66,23 +66,15 @@ async function handleUserLogin(req: Request, res: Response) {
             });
         }
 
-        console.log("LOGIN: looking for user", email);
-
         const user = await User.findOne({ email });
 
         if (user) {
-            console.log("LOGIN: user found");
-
             const isPasswordCorrect = await bcrypt.compare(
                 password,
                 user.password
             );
 
-            console.log("LOGIN: password checked", isPasswordCorrect);
-
             if (isPasswordCorrect) {
-                console.log("LOGIN: creating token");
-
                 const token = jwt.sign(
                     {
                         userId: user._id,
@@ -93,8 +85,6 @@ async function handleUserLogin(req: Request, res: Response) {
                         expiresIn: "1h",
                     }
                 );
-
-                console.log("LOGIN: token created");
 
                 return res.json({
                     message: "Login successful",
