@@ -56,47 +56,66 @@ async function handleCreateNewUser(req: Request, res: Response) {
 }
 
 async function handleUserLogin(req: Request, res: Response) {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({
-            success: false,
-            message: "Email and password are required",
-        });
-    }
-
-    const user = await User.findOne({ email });
-
-    if (user) {
-        const isPasswordCorrect = await bcrypt.compare(
-            password,
-            user.password
-        );
-
-        if (isPasswordCorrect) {
-            const token = jwt.sign(
-                {
-                    userId: user._id,
-                    email: user.email,
-                },
-                process.env.JWT_SECRET!,
-                {
-                    expiresIn: "1h",
-                }
-            );
-
-            res.json({
-                message: "Login successful",
-                token
-            });
-        } else {
-            res.status(401).json({
-                message: "Incorrect password"
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required",
             });
         }
-    } else {
-        res.status(404).json({
-            message: "User not found"
+
+        console.log("LOGIN: looking for user", email);
+
+        const user = await User.findOne({ email });
+
+        if (user) {
+            console.log("LOGIN: user found");
+
+            const isPasswordCorrect = await bcrypt.compare(
+                password,
+                user.password
+            );
+
+            console.log("LOGIN: password checked", isPasswordCorrect);
+
+            if (isPasswordCorrect) {
+                console.log("LOGIN: creating token");
+
+                const token = jwt.sign(
+                    {
+                        userId: user._id,
+                        email: user.email,
+                    },
+                    process.env.JWT_SECRET!,
+                    {
+                        expiresIn: "1h",
+                    }
+                );
+
+                console.log("LOGIN: token created");
+
+                return res.json({
+                    message: "Login successful",
+                    token,
+                });
+            } else {
+                return res.status(401).json({
+                    message: "Incorrect password",
+                });
+            }
+        } else {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+    } catch (error) {
+        console.error("LOGIN ERROR:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
         });
     }
 }
