@@ -7,7 +7,7 @@ import {
     FiChevronRight,
     FiCode,
     FiFileText,
-    FiFolder,
+    // FiFolder,
     FiGrid,
     FiHeart,
     FiLogOut,
@@ -39,13 +39,13 @@ const quickActions = [
         tint: "bg-violet-50 text-violet-600",
         path: "/favorites",
     },
-    {
-        label: "Organize your workflow",
-        description: "Group snippets into folders and tags.",
-        icon: FiFolder,
-        tint: "bg-sky-50 text-sky-600",
-        path: "#",
-    },
+    // {
+    //     label: "Organize your workflow",
+    //     description: "Group snippets into folders and tags.",
+    //     icon: FiFolder,
+    //     tint: "bg-sky-50 text-sky-600",
+    //     path: "#",
+    // },
 ];
 
 interface Snippet {
