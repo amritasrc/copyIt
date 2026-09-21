@@ -16,6 +16,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.use('/api/users', router);
 app.use('/api/snippets', snippetRouter);
 
