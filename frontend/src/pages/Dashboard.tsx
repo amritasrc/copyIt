@@ -60,6 +60,7 @@ interface Snippet {
 const Dashboard = () => {
     const [snippets, setSnippets] = useState<Snippet[]>([]);
     const [search, setSearch] = useState("");
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
 
     const navigate = useNavigate();
 
@@ -209,6 +210,7 @@ const Dashboard = () => {
                         <button
                             type="button"
                             aria-label="Search"
+                            onClick={() => setShowMobileSearch(true)}
                             className="rounded-md p-2 text-neutral-500 transition-colors hover:bg-stone-100 hover:text-neutral-900 md:hidden"
                         >
                             <FiSearch className="h-5 w-5" />
@@ -242,6 +244,34 @@ const Dashboard = () => {
                         </button>
                     </div>
                 </div>
+                {showMobileSearch && (
+                    <div className="border-t border-stone-200 bg-white px-4 py-3 md:hidden">
+                        <div className="relative">
+                            <FiSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
+
+                            <input
+                                type="search"
+                                autoFocus
+                                placeholder="Search snippets..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full rounded-md border border-stone-200 bg-stone-50 py-2 pl-9 pr-10 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearch("");
+                                    setShowMobileSearch(false);
+                                }}
+                                aria-label="Close search"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-neutral-400 hover:bg-stone-200 hover:text-neutral-700"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                )}
             </header>
 
             <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
